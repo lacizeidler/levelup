@@ -1,0 +1,13 @@
+[
+    {
+        "model": "levelupapi.event",
+        "pk": 1,
+        "fields": {
+            "description": "An event description",
+            "date": "2020-08-13",
+            "time": "11:52:21",
+            "game_id": 1,
+            "organizer_id": 1
+        }
+    }
+]

@@ -1,6 +1,4 @@
 """View module for handling requests about game types"""
-from urllib import response
-from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -23,8 +21,8 @@ class GameView(ViewSet):
 
     def create(self, request):
         gamer = Gamer.objects.get(user=request.auth.user)
-        game_type=GameType.objects.get(pk=request.data['game_type'])
-        
+        game_type = GameType.objects.get(pk=request.data['game_type_id'])
+
         game = Game.objects.create(
             title=request.data['title'],
             maker=request.data['maker'],
@@ -51,5 +49,5 @@ class GameView(ViewSet):
 class GameSerializer(ModelSerializer):
     class Meta:
         model = Game
-        fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level', 'game_type', 'gamer')
+        fields = "__all__"
         depth = 1
