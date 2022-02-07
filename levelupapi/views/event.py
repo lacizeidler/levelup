@@ -21,11 +21,11 @@ class EventView(ViewSet):
 
     def create(self, request):
         organizer = Gamer.objects.get(user=request.auth.user)
-        game = Game.objects.get(pk=request.data['game'])
+        game = Game.objects.get(pk=request.data['gameId'])
 
         event = Event.objects.create(
             description=request.data['description'],
-            data=request.data['date'],
+            date=request.data['date'],
             time=request.data['time'],
             organizer=organizer,
             game=game
@@ -40,6 +40,31 @@ class EventView(ViewSet):
         event = Event.objects.get(pk=pk)
         event.attendees.add(gamer)
         return Response({'message': 'Gamer added'}, status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, pk):
+        event = Event.objects.get(pk=pk)
+        event.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+    def update(self, request, pk):
+        """Handle PUT requests for an event
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+
+        event = Event.objects.get(pk=pk)
+        event.description = request.data["description"]
+        event.date = request.data["date"]
+        event.time = request.data["time"]
+        event.gameId = request.data["game"]
+
+        game = Game.objects.get(pk=request.data["game"])
+        event.game = game
+        event.save()
+
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
 
 class EventSerializer(ModelSerializer):
     class Meta:
