@@ -63,10 +63,11 @@ class EventView(ViewSet):
         event.save()
 
         return Response(None, status=status.HTTP_204_NO_CONTENT)
-
+      
 
 class EventSerializer(ModelSerializer):
     class Meta:
         model = Event
-        fields = "__all__"
+        fields = ('id', 'game', 'organizer',
+          'description', 'date', 'time', 'attendees', 'joined')
         depth = 1
