@@ -15,9 +15,12 @@ class EventView(ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk):
-        event = Event.objects.get(pk=pk)
-        serializer = EventSerializer(event)
-        return Response(serializer.data)
+        try:
+            event = Event.objects.get(pk=pk)
+            serializer = EventSerializer(event)
+            return Response(serializer.data)
+        except Event.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request):
         organizer = Gamer.objects.get(user=request.auth.user)

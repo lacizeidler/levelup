@@ -1,8 +1,12 @@
 {
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
+    "terminal.integrated.fontSize": 20,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django",
         "--django-settings-module=levelup.settings",
+    ],
+    "cSpell.words": [
+        "levelupreports"
     ]
 }
