@@ -12,11 +12,16 @@ class UserEventList(View):
 
             # TODO: Write a query to get all games along with the gamer first name, last name, and id
             db_cursor.execute("""
-                select gr.id as gamer_id, u.first_name, u.last_name, e.id, e.description, e.date, e.time, g.title
-                from levelupapi_event e
-                join levelupapi_game g on g.id = e.game_id 
-                join levelupapi_gamer gr on g.gamer_id = gr.id 
-                join auth_user u on u.id = gr.user_id
+                SELECT 
+                    gamer_id,
+                    id,
+                    description,
+                    date,
+                    time,
+                    title,
+                    full_name
+                FROM 
+                    EVENTS_BY_USER
             """)
             # Pass the db_cursor to the dict_fetch_all function to turn the fetch_all() response into a dictionary
             dataset = dict_fetch_all(db_cursor)
@@ -76,7 +81,7 @@ class UserEventList(View):
                     # If the user is not on the games_by_user list, create and add the user to the list
                     events_by_user.append({
                         "gamer_id": row['gamer_id'],
-                        "full_name": f"{row['first_name']} {row['last_name']}",
+                        "full_name": row['full_name'],
                         "events": [event]
                     })
         
